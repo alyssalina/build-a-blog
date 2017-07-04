@@ -1,16 +1,16 @@
-from flask import flask, request, render_template, redirect
+from flask import Flask, request, render_template, redirect
 from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
-app.confi['DEBUG']=True
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://get-it-done:Dannya32@localhost:8889/get-it-done'
+app.config['DEBUG']=True
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://build-a-blog:Dannya32@localhost:8889/build-a-blog'
 app.config['SQLALCHEMY_ECHO']= True
 db = SQLAlchemy(app)
 
 #create Blogpost Class
 class Blogpost (db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    blogtitle = db.Colum(db.String(120))
-    blogpost = db.Column(db.String)
+    blogtitle = db.Column(db.String(120))
+    blogpost = db.Column(db.String(20000))
 
     def __init(self, blogtitle,blogpost):
         self.blogtitle = blogtitle
@@ -20,5 +20,14 @@ class Blogpost (db.Model):
 @app.route('/newpost',methods=['POST','GET'])
 def newpost():
     if request.method=='POST':
-        blogtitle = request.form['blogtitle']
-        blogpost = request.form['blogpost']
+        blog_title = request.form['blogtitle']
+        blog_post = request.form['blogpost']
+        new_blog = Blogpost (blog_title,blog_post)
+
+        db.session.add(new_blog)
+        db.session.commit()
+        return redirect('/blog')
+
+return render_template('newpost.html')
+
+@app.route
