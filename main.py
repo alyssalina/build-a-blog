@@ -28,6 +28,7 @@ def newpost():
         db.session.commit()
         return redirect('/blog')
 
-return render_template('newpost.html')
+    return render_template('newpost.html')
 
-@app.route
+if __name__ == '__main__':
+    app.run()
