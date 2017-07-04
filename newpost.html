@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Post to Blog</h1>
+    <form method = "post">
+            <label for ="blogtitle">Blog Entry Title</label>
+            <input name="blogtitle" type="text" value="{{blogtitle}}">
+        <p>
+            <label for "blogpost">Blog Entry</label>
+            <input name="blogpost" type="text" value="{{blogpost}}">
+        <p>
+            <input type = "submit" value="Post to blog"/>
+            </form>
+
+{% endblock %}
