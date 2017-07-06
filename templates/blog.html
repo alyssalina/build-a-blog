@@ -1,5 +1,17 @@
-{% extends "base.html%"}
+{% extends "base.html" %}
 
 {% block content %}
-    <h1>Alyssa's Blog!</h1>
+    <h1>{{title}}</h1>
     
+    {% for blog in blogs%}
+    <hr/>
+    <h2>{{blog.blogtitle}}</h2>
+    <p>
+    {{blog.blogpost}}
+
+    {% endfor %}
+
+    <p>
+
+    
+ {% endblock %}   

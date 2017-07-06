@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect
+from flask import Flask, request, flash, render_template, redirect, session
 from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 app.config['DEBUG']=True
@@ -6,27 +6,41 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://build-a-blog:Dannya32@l
 app.config['SQLALCHEMY_ECHO']= True
 db = SQLAlchemy(app)
 
+app.secret_key = 'K^kzqbF&ZKEY:68fQ=iCY#M&'
+
 #create Blogpost Class
 class Blogpost (db.Model):
     id = db.Column(db.Integer, primary_key=True)
     blogtitle = db.Column(db.String(120))
     blogpost = db.Column(db.String(20000))
 
-    def __init(self, blogtitle,blogpost):
+    def __init__(self, blogtitle, blogpost):
         self.blogtitle = blogtitle
         self.blogpost = blogpost
 
+@app.route('/')
+def index():
+    return redirect('/blog')
+
+@app.route('/blog', methods=['POST','GET'])
+def blog():
+    blogs = Blogpost.query.all()
+
+    return render_template('blog.html', title="Blogz", blogs=blogs)
 
 @app.route('/newpost',methods=['POST','GET'])
 def newpost():
     if request.method=='POST':
-        blog_title = request.form['blogtitle']
-        blog_post = request.form['blogpost']
-        new_blog = Blogpost (blog_title,blog_post)
+        blogtitle = request.form['blogtitle']
+        blogpost = request.form['blogpost']
+        new_blog = Blogpost(blogtitle, blogpost)
 
-        db.session.add(new_blog)
-        db.session.commit()
-        return redirect('/blog')
+        if blogtitle != "" and blogpost !="":
+            db.session.add(new_blog)
+            db.session.commit()
+            return redirect('/blog')
+        else:
+            flash('Please provide both a title and post content!','error')
 
     return render_template('newpost.html')
 
