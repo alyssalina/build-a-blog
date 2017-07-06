@@ -5,7 +5,7 @@
     
     {% for blog in blogs%}
     <hr/>
-    <h2>{{blog.blogtitle}}</h2>
+    <h2><a href=./blog?id={{blog.id}}>{{blog.blogtitle}}</h2></a>
     <p>
     {{blog.blogpost}}
 

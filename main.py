@@ -18,24 +18,29 @@ class Blogpost (db.Model):
         self.blogtitle = blogtitle
         self.blogpost = blogpost
 
+blogs = Blogpost.query.all()
+
 @app.route('/')
 def index():
     return redirect('/blog')
 
 @app.route('/blog', methods=['POST','GET'])
 def blog():
-    blogs = Blogpost.query.all()
-
-    return render_template('blog.html', title="Blogz", blogs=blogs)
-
+    if request.args.get("id"):
+        indy_id = request.args.get("id")
+        indi_blog = Blogpost.query.filter_by(id = indy_id).all()
+        return render_template('individual_blog.html', indi_blog=indi_blog)
+    else:
+        return render_template('blog.html', title="Blogz", blogs=blogs)
+    
 @app.route('/newpost',methods=['POST','GET'])
 def newpost():
     if request.method=='POST':
         blogtitle = request.form['blogtitle']
         blogpost = request.form['blogpost']
-        new_blog = Blogpost(blogtitle, blogpost)
 
         if blogtitle != "" and blogpost !="":
+            new_blog = Blogpost(blogtitle, blogpost)
             db.session.add(new_blog)
             db.session.commit()
             return redirect('/blog')

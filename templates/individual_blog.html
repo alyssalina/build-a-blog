@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% for blog in indi_blog %}
+    <h1>{{blog.blogtitle}}</h1>
+    <p>{{blog.blogpost}}
+    {% endfor %}
+
+
+
+    
+ {% endblock %}   
