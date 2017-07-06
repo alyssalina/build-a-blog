@@ -1,4 +1,4 @@
-from flask import Flask, request, flash, render_template, redirect, session
+from flask import Flask, request, render_template, redirect, session, flash
 from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 app.config['DEBUG']=True
@@ -40,7 +40,7 @@ def newpost():
             db.session.commit()
             return redirect('/blog')
         else:
-            flash('Please provide both a title and post content!','error')
+            flash('Please provide both a blog title and content for your post!','error')
 
     return render_template('newpost.html')
 
