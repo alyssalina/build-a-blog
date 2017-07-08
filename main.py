@@ -18,7 +18,6 @@ class Blogpost (db.Model):
         self.blogtitle = blogtitle
         self.blogpost = blogpost
 
-blogs = Blogpost.query.all()
 
 @app.route('/')
 def index():
@@ -31,6 +30,7 @@ def blog():
         indi_blog = Blogpost.query.filter_by(id = indy_id).all()
         return render_template('individual_blog.html', indi_blog=indi_blog)
     else:
+        blogs = Blogpost.query.all()
         return render_template('blog.html', title="Blogz", blogs=blogs)
     
 @app.route('/newpost',methods=['POST','GET'])
