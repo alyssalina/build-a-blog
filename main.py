@@ -43,7 +43,10 @@ def newpost():
             new_blog = Blogpost(blogtitle, blogpost)
             db.session.add(new_blog)
             db.session.commit()
-            return redirect('/blog')
+            indy_id = new_blog.id
+            indi_blog = Blogpost.query.filter_by(id = indy_id).all()
+
+            return render_template('individual_blog.html', indi_blog=indi_blog)
         else:
             flash('Please provide both a blog title and content for your post!','error')
 
