@@ -1,0 +1,32 @@
+<!doctype HTML>
+<html>
+    <head>
+        <title>{{title}}</title>
+            <style>
+            .error {
+                color: blue;
+            }
+            </style>
+    </head>
+    </html>
+    <div>
+    <body>
+        {% block content%}
+        {% endblock %}
+
+        <ul>
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% for category,message in messages %}
+               <li class="{{category}}">{{message}}</li>
+            {% endfor %}
+        {% endwith %}
+        </ul>
+       
+    </body>
+
+    </div>
+
+    <a href='/blog'>Read Blog Entries</a> or <a href='/newpost'>Create a New Post</a>
+    <html>
+
+    
